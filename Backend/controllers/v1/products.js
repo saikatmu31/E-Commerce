@@ -1,4 +1,4 @@
-const Product = require("../models/Product");
+const Product = require("../../models/Product");
 
 // Register a Product
 exports.registerProduct = async (req, res) => {
@@ -62,12 +62,15 @@ exports.deleteProduct = async (req, res) => {
 				.status(404)
 				.json({ success: false, error: "Product not found" });
 		}
-		res.status(200).json({ success: true, data: {} });
+		res.status(200).json({
+			success: true,
+			data: {},
+			message: `Product Deleted Successfully`,
+		});
 	} catch (err) {
 		res.status(400).json({ success: false, error: err.message });
 	}
 };
-
 
 exports.addReviews = async (req, res) => {
 	try {
@@ -103,6 +106,7 @@ exports.addReviews = async (req, res) => {
 
 		res.status(201).json({ success: true, data: product });
 	} catch (error) {
+		console.log(error.message);
 		res.status(400).json({ success: false, error: error.message });
 	}
 };

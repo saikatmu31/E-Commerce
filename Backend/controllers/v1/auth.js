@@ -173,7 +173,7 @@ exports.login = async (req, res) => {
 exports.sendotp = async (req, res) => {
 	try {
 		const { email } = req.body;
-
+		console.log("here");
 		// Check if user is already present
 		// Find user with provided email
 		const checkUserPresent = await User.findOne({ email });

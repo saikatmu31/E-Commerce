@@ -17,16 +17,16 @@ const productSchema = new mongoose.Schema({
 		required: [true, "please provide product description"],
 	},
 	photos: [
-		{
-			id: {
-				type: String,
-				required: true,
-			},
-			secure_url: {
-				type: String,
-				required: true,
-			},
-		},
+		// {
+		// 	id: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// 	secure_url: {
+		// 		type: String,
+		// 		required: true,
+		// 	},
+		// },
 	],
 	category: {
 		type: mongoose.Schema.ObjectId,
