@@ -7,7 +7,7 @@ const {
 } = require("../controllers/v1/cart");
 
 router.post("/addtocart", addToCart);
-router.delete("/removetocart", removeFromCart);
-router.put("/updateQuantity", updateQuantity);
-router.get("/cart", getCartDetails);
+router.post("/removefromcart", removeFromCart);
+router.post("/updateQuantity", updateQuantity);
+router.post("/cart", getCartDetails);
 module.exports = router;

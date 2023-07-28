@@ -12,7 +12,6 @@ function OtpPage() {
     event.preventDefault();
     signup({ ...signupData, otp: otp })
       .then((data) => {
-        console.log("DATA from API", data);
         if (data.error) {
           // setValues({ ...values, error: data.error, success: false });
           navigate("/signup");

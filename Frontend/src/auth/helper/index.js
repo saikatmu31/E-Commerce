@@ -2,7 +2,7 @@ const { API } = require("../../Backend");
 
 export const sendOtp = async (email) => {
   try {
-    console.log(email);
+    // console.log(email);
     const response = await fetch(`${API}auth/sendotp`, {
       method: "POST",
       headers: {

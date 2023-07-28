@@ -19,13 +19,16 @@ import Signup from "./user/Signup";
 import OtpPage from "./user/OtpPage";
 import { MyContext } from "./context/createContext";
 import ProductDetails from "./core/ProductDetails";
-import { Cart } from "./user/Cart";
+import Cart from "./user/Cart";
 
 const AppRoutes = () => {
 	const [signupData, setSignupData] = useState({});
+	const [cartCount, setCartCount] = useState(0);
 	return (
 		<Router>
-			<MyContext.Provider value={{ signupData, setSignupData }}>
+			<MyContext.Provider
+				value={{ signupData, setSignupData, cartCount, setCartCount }}
+			>
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/profile" element={<Profile />} />
@@ -33,8 +36,8 @@ const AppRoutes = () => {
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/otp" element={<OtpPage />} />
-					<Route path="/product/:id" element={<ProductDetails/>} />
-					<Route path="/cart" element={<Cart/>} />
+					<Route path="/product/:id" element={<ProductDetails />} />
+					<Route path="/cart" element={<Cart />} />
 				</Routes>
 			</MyContext.Provider>
 		</Router>

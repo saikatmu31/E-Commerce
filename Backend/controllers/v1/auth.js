@@ -218,7 +218,7 @@ exports.sendotp = async (req, res) => {
 		const otpPayload = { email, otp };
 		const otpBody = await OTP.create(otpPayload);
 		console.log("OTP Body", otpBody);
-		await mailSender(email, "OTP from Ecommerce", otpPayload);
+		await mailSender(email, "OTP from Ecommerce", otpPayload.otp);
 		res.status(200).json({
 			success: true,
 			message: `OTP Sent Successfully`,

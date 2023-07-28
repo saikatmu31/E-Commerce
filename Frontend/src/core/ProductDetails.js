@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Star, ChevronDown, CloudCog } from "lucide-react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { API } from "../Backend";
 import { Base } from "./Base";
+import { toast } from "react-hot-toast";
+import { MyContext } from "../context/createContext";
 
 function ProductDetails() {
 	const { id } = useParams();
@@ -29,7 +31,8 @@ function ProductDetails() {
 			console.error("Error fetching product details:", error);
 		}
 	};
-
+	const userData = JSON.parse(localStorage.getItem("jwt"));
+	const userid = userData.user._id;
 	const fetchOtherProducts = async () => {
 		try {
 			const response = await fetch(`${API}products/getAllProducts`, {
@@ -46,7 +49,34 @@ function ProductDetails() {
 			console.error("Error fetching other products:", error);
 		}
 	};
-
+	const addToCart = async (productId) => {
+		try {
+			if (!userid) {
+				toast.error("Please Login to Continue");
+			}
+			const response = await fetch(`${API}cart/addtocart`, {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: userid,
+					productId: productId,
+					quantity: 1,
+				}),
+			});
+			const data = await response.json();
+			// console.log("MESSAGE", data.message);
+			if (data.success === true) {
+				toast.success(data.message);
+			} else {
+				toast.error(data.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	const shuffle = (array) => {
 		for (let i = array.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -92,8 +122,9 @@ function ProductDetails() {
 										<button
 											type="button"
 											className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+											onClick={() => addToCart(productDetails._id)}
 										>
-											Buy Now
+											Add to Cart
 										</button>
 									</div>
 								</div>
@@ -103,7 +134,6 @@ function ProductDetails() {
 				) : (
 					<div>Loading...</div>
 				)}
-				{console.log(otherProducts)}
 				<div className="mx-auto grid w-full max-w-7xl items-center space-y-4 px-2 py-10 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-4">
 					{otherProducts.map((product, index) => (
 						<div key={index} className="rounded-md border">

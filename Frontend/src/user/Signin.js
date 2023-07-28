@@ -27,7 +27,6 @@ const SignIn = () => {
       password,
     })
       .then((data) => {
-        console.log(data);
         if (data.error) {
           toast.error("Error Logging in ");
         } else if (data.success === false) {
@@ -38,7 +37,7 @@ const SignIn = () => {
             navigate("/");
           });
 
-          console.log("Data after Login", data);
+          // console.log("Data after Login", data);
         }
       })
       .catch((e) => {
@@ -47,7 +46,7 @@ const SignIn = () => {
       });
   };
 
-  console.log("User Details - ", authToken);
+  // console.log("User Details - ", authToken);
   useEffect(() => {
     if (authToken) {
       navigate("/");

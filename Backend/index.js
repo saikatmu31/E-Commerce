@@ -8,6 +8,7 @@ const auth = require("./routes/auth");
 const products = require("./routes/products");
 const Category = require("./routes/category");
 const Cart = require("./routes/cart");
+const Payment = require("./routes/payment");
 const PORT = process.env.PORT || 8080;
 const cors = require("cors");
 // Connect to DB
@@ -32,6 +33,7 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/products", products);
 app.use("/api/v1/category", Category);
 app.use("/api/v1/cart", Cart);
+app.use("/api/v1/payment", Payment);
 cloudinaryConnect();
 // Initializeing Server
 app.listen(PORT, () => {

@@ -9,7 +9,6 @@ exports.addToCart = async (req, res) => {
 		// Find the product to check if it exists and has enough stock
 		const product = await Product.findById(productId);
 
-
 		if (!product) {
 			return res
 				.status(404)
@@ -99,41 +98,55 @@ exports.removeFromCart = async (req, res) => {
 exports.updateQuantity = async (req, res) => {
 	try {
 		const { userId, productId, quantity } = req.body;
-
+		console.log(userId, productId, quantity);
 		const cart = await Cart.findOne({ userId });
 
 		if (!cart) {
-			return res.status(404).json({ error: "Cart not found" });
+			return res
+				.status(404)
+				.json({ success: false, message: "Cart not found" });
 		}
 
 		const existingProduct = cart.items.find(
 			(item) => item.productId.toString() === productId
 		);
-
 		if (!existingProduct) {
-			return res.status(404).json({ error: "Product not found in cart" });
+			return res
+				.status(404)
+				.json({ success: false, message: "Product not found in cart" });
+		}
+
+		// Validate quantity
+		if (quantity <= 0) {
+			return res.status(400).json({
+				success: false,
+				message: "Quantity must be greater than zero",
+			});
 		}
 
 		existingProduct.quantity = quantity;
 
 		await cart.save();
 
-		res
-			.status(200)
-			.json({ message: "Cart quantity updated successfully", cart });
+		res.status(200).json({
+			success: true,
+			message: "Cart quantity updated successfully",
+			cart,
+		});
 	} catch (err) {
-		res.status(500).json({ error: "Internal server error" });
+		console.log(err.message);
+		res.status(500).json({ success: false, message: "Internal server error" });
 	}
 };
 
 exports.getCartDetails = async (req, res) => {
 	try {
-		const { userId } = req.params;
+		const { userId } = req.body;
 
 		// Find the cart for the given user
 		const cart = await Cart.findOne({ userId }).populate({
 			path: "items.productId",
-			select: "name price",
+			select: "name price photos description",
 		});
 
 		if (!cart) {
@@ -142,6 +155,10 @@ exports.getCartDetails = async (req, res) => {
 
 		res.status(200).json({ cart });
 	} catch (err) {
-		res.status(500).json({ error: "Internal server error" });
+		res.status(500).json({
+			success: false,
+			error: "Internal server error",
+			message: err.message,
+		});
 	}
 };
