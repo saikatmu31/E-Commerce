@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
 		type: String,
 		required: [true, "please provide product description"],
 	},
-	photos: [
+	photos: {
 		// {
 		// 	id: {
 		// 		type: String,
@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
 		// 		required: true,
 		// 	},
 		// },
-	],
+	},
 	category: {
 		type: mongoose.Schema.ObjectId,
 		ref: "Category",

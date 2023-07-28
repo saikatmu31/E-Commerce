@@ -23,6 +23,18 @@ exports.signup = async (req, res) => {
 			pincode,
 		} = req.body;
 		// Check if All Details are there or not
+		console.log(
+			"BODY",
+			name,
+			email,
+			password,
+			confirmPassword,
+			phoneNumber,
+			role,
+			otp,
+			address,
+			pincode
+		);
 		if (
 			(!name,
 			!email,
@@ -108,7 +120,7 @@ exports.login = async (req, res) => {
 	try {
 		// Get email and password from request body
 		const { email, password } = req.body;
-
+		console.log(email, password);
 		// Check if email or password is missing
 		if (!email || !password) {
 			// Return 400 Bad Request status code with error message
@@ -148,7 +160,7 @@ exports.login = async (req, res) => {
 				expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
 				httpOnly: true,
 			};
-			res.cookie("token", token, options).status(200).json({
+			return res.cookie("token", token, options).status(200).json({
 				success: true,
 				token,
 				user,
@@ -157,7 +169,7 @@ exports.login = async (req, res) => {
 		} else {
 			return res.status(401).json({
 				success: false,
-				message: `Password is incorrect`,
+				message: `Email or Password is incorrect`,
 			});
 		}
 	} catch (error) {
@@ -173,6 +185,7 @@ exports.login = async (req, res) => {
 exports.sendotp = async (req, res) => {
 	try {
 		const { email } = req.body;
+		console.log(email);
 		console.log("here");
 		// Check if user is already present
 		// Find user with provided email

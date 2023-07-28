@@ -1,25 +1,31 @@
 const Product = require("../../models/Product");
-
+const { uploadImageToCloudinary } = require("../../utils/imageUploader");
+const mongoose = require("mongoose");
 // Register a Product
 exports.registerProduct = async (req, res) => {
 	try {
-		const { name, price, description, photos, category, stock, user } =
-			req.body;
-
-		if (!name || !price || !description || !category || !stock) {
+		const { name, price, description, category, stock, user } = req.body;
+		console.log(name, price, description, category, stock, user);
+		const photos = req.files.photo;
+		console.log(photos);
+		if (!name || !price || !description || !category || !stock || !photos) {
 			return res
 				.status(400)
 				.json({ success: false, error: "Please provide all required fields" });
 		}
-
+		const imageLink = await uploadImageToCloudinary(
+			photos,
+			process.env.FOLDER_NAME
+		);
+		console.log(imageLink);
 		const newProduct = await Product.create({
 			name,
 			price,
 			description,
-			photos,
-			category,
+			photos: imageLink.secure_url,
+			category: new mongoose.Types.ObjectId(category),
 			stock,
-			user,
+			user: new mongoose.Types.ObjectId(user),
 		});
 
 		res.status(201).json({ success: true, data: newProduct });

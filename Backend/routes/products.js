@@ -9,7 +9,7 @@ const {
 } = require("../controllers/v1/products");
 
 router.post("/addProduct", registerProduct);
-router.get("/productDetails", getProductDetails);
+router.get("/productDetails/:id", getProductDetails);
 router.get("/getAllProducts", getAllProducts);
 router.put("/addReviews", addReviews);
 router.delete("/deleteProduct", deleteProduct);
