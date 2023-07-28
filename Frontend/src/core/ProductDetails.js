@@ -31,8 +31,7 @@ function ProductDetails() {
 			console.error("Error fetching product details:", error);
 		}
 	};
-	const userData = JSON.parse(localStorage.getItem("jwt"));
-	const userid = userData.user._id;
+
 	const fetchOtherProducts = async () => {
 		try {
 			const response = await fetch(`${API}products/getAllProducts`, {
@@ -50,6 +49,8 @@ function ProductDetails() {
 		}
 	};
 	const addToCart = async (productId) => {
+		const userData = JSON.parse(localStorage.getItem("jwt"));
+		const userid = userData.user._id;
 		try {
 			if (!userid) {
 				toast.error("Please Login to Continue");
