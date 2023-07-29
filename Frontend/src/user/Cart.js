@@ -262,6 +262,7 @@ const Cart = () => {
 														)
 													}
 												>
+												+
 												</button>
 											</div>
 											<div className="ml-6 flex text-sm">
